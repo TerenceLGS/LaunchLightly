@@ -14,19 +14,18 @@
         <vm:SecondWindowViewModel/>
     </Design.DataContext>
     
-    <Grid ColumnDefinitions="100,10*,1*" RowDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto,Auto"  Margin="4">
-        <Label Grid.Row="0" Grid.Column="0" Content="SDK" Margin="2" />
-        <Label Grid.Row="1" Grid.Column="0" Content="API" Margin="2" />
-        <Label Grid.Row="2" Grid.Column="0" Content="Project" Margin="2" />
-        <Label Grid.Row="3" Grid.Column="0" Content="Rule" Margin="2" />
-        <TextBox Grid.Row="0" Grid.Column="1" Watermark="sdk key" Margin="4" />
-        <TextBox Grid.Row="1" Grid.Column="1" Watermark="api key" Margin="4" />
-        <TextBox Grid.Row="2" Grid.Column="1" Watermark="project" Margin="4" />
-        <TextBox Grid.Row="3" Grid.Column="1" Watermark="rule" Margin="4" />
-        <Label Grid.Row="4" Grid.Column="1" Content="IDs to change" Margin="4" />
-        <TextBox Grid.Row="5" Grid.Column="1" Watermark="IDs" Margin="4" />
-        <Button Grid.Row="0" Grid.Column="2" Content="Add" Margin="1" />
-        <Button Grid.Row="2" Grid.Column="2" Content="Remove" Margin="1" />
+    <Grid ColumnDefinitions="100,10*,1*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"  Margin="4">
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <Label Content="Rule Index:" Margin="4" />
+            <TextBox Watermark="Rule Index" Margin="4" />
+            <Label Content="Clause Index:" Margin="4" />
+            <TextBox Watermark="Clause Index" Margin="4" />    
+        </StackPanel>
+        
+        <Label Grid.Row="1" Grid.Column="1" Content="IDs to change" Margin="4" />
+        <TextBox Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Watermark="IDs" Margin="4" />
+        <Button Grid.Row="2" Grid.Column="2" Content="Add" Margin="1" />
+        <Button Grid.Row="3" Grid.Column="2" Content="Remove" Margin="1" />
         <Button Grid.Row="4" Grid.Column="2" Content="Replace" Margin="1" />
     </Grid>
 </Window>

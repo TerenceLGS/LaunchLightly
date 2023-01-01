@@ -31,5 +31,13 @@
       <DependentUpon>SecondWindow.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\ConfigWindow.axaml.cs">
+      <DependentUpon>ConfigWindow.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ResultsWindow.axaml.cs">
+      <DependentUpon>ResultsWindow.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
