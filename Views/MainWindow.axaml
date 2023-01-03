@@ -14,6 +14,6 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Button Content="Open" Command="{Binding OpenConfigWindow}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" />
 
 </Window>
