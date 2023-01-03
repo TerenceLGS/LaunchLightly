@@ -14,6 +14,12 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Button Content="Open" Command="{Binding OpenConfigWindow}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" />
+    <Grid ColumnDefinitions="2*,4,2*" RowDefinitions="Auto, 4, Auto">
+        <ContentPresenter Grid.ColumnSpan="3" Content="{Binding KeysContent}" />
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns" />
+        <ContentPresenter Grid.Column="0" Grid.Row="2" Content="{Binding ResultsContent}" />
+        <GridSplitter Grid.Row="1" ResizeDirection="Rows" />
+        <ContentPresenter Grid.Column="2" Grid.Row="2" Content="{Binding BulkUpdateContent}" />
+    </Grid>
 
 </Window>

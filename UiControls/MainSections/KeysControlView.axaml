@@ -1,17 +1,15 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:LaunchLightly.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="LaunchLightly.Views.ConfigWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="LaunchLightly">
-
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:LaunchLightly.ViewModels"
+             xmlns:mainSections="clr-namespace:LaunchLightly.UiControls.MainSections"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="LaunchLightly.UiControls.MainSections.KeysControlView">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:ConfigWindowViewModel/>
+        <mainSections:KeysControlViewModel/>
     </Design.DataContext>
     
     <Grid ColumnDefinitions="100,10*,1*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"  Margin="4">
@@ -28,4 +26,4 @@
         <TextBox Grid.Row="4" Grid.Column="1" Watermark="flag" Text="{Binding FlagId}"  Margin="4" />
         <Button Content="GET" Grid.Row="1" Grid.Column="2" />
     </Grid>
-</Window>
+</UserControl>

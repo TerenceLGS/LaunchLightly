@@ -1,12 +1,9 @@
 using System;
+using LaunchLightly.ViewModels;
 
-namespace LaunchLightly.ViewModels; 
+namespace LaunchLightly.UiControls.MainSections;
 
-public class SecondWindowViewModel : ViewModelBase {
-	
-}
-
-public class ConfigWindowViewModel : ViewModelBase {
+public class KeysControlViewModel : ViewModelBase {
 	
 	public string SdkKey { get; set; } = String.Empty;
 	public string ApiKey { get; set; } = String.Empty;
@@ -14,8 +11,4 @@ public class ConfigWindowViewModel : ViewModelBase {
 	public string EnvironmentKey { get; set; } = String.Empty;
 	public string FlagId { get; set; } = String.Empty;
 	public bool RevealKeys { get; set; } = true;
-}
-
-public class ResultsWindowViewModel : ViewModelBase {
-	public string ResultsJson { get; set; }
 }

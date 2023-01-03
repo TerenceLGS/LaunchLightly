@@ -1,4 +1,4 @@
-namespace LaunchLightly.Models; 
+namespace LaunchLightly.Models.LaunchDarkly; 
 
 public class LdApiKeys {
 	public LdApiKeys(string? api, string? sdk, string? project, string? environment, string? key) {

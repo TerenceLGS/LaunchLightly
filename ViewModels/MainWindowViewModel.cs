@@ -1,5 +1,5 @@
 ﻿using System.Reactive;
-using LaunchLightly.Views;
+using LaunchLightly.UiControls.MainSections;
 using ReactiveUI;
 
 namespace LaunchLightly.ViewModels;
@@ -8,9 +8,10 @@ public class MainWindowViewModel : ViewModelBase
 {
     public MainWindowViewModel() {
         OpenConfigWindow = ReactiveCommand.Create(OpenAWindow);
+        KeysContent = new KeysControlViewModel();
+        ResultsContent = new ResultsControlViewModel();
+        BulkUpdateContent = new BulkUpdateControlViewModel();
     }
-    
-    public string Greeting => "Welcome to Avalonia!";
 
     public ReactiveCommand<Unit, Unit> OpenConfigWindow { get; }
     
@@ -18,10 +19,13 @@ public class MainWindowViewModel : ViewModelBase
 
     public void OpenAWindow() {
         if (!_alreadyOpenedConfigWindow) {
-            ConfigWindow window = new();
-            window.Show();
+            //ConfigWindow window = new();
+            //window.Show();
             _alreadyOpenedConfigWindow = true;
         }
     }
+    
+    public KeysControlViewModel KeysContent { get; set; }
+    public ResultsControlViewModel ResultsContent { get; set; }
+    public BulkUpdateControlViewModel BulkUpdateContent { get; set; }
 }
-

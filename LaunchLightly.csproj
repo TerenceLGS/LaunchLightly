@@ -27,16 +27,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\SecondWindow.axaml.cs">
-      <DependentUpon>SecondWindow.axaml</DependentUpon>
+    <Compile Update="UiControls\MainSections\BulkUpdateControlView.axaml.cs">
+      <DependentUpon>BulkUpdateControl.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\ConfigWindow.axaml.cs">
-      <DependentUpon>ConfigWindow.axaml</DependentUpon>
+    <Compile Update="UiControls\MainSections\KeysControlView.axaml.cs">
+      <DependentUpon>KeysControl.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\ResultsWindow.axaml.cs">
-      <DependentUpon>ResultsWindow.axaml</DependentUpon>
+    <Compile Update="UiControls\MainSections\ResultsControlView.axaml.cs">
+      <DependentUpon>ResultsControl.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
