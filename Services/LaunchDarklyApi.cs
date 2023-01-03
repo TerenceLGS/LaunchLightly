@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -24,6 +25,30 @@ public class LaunchDarklyApi {
 	}
 
 	public async Task<string> GetSegment(LdApiKeys keys, CancellationToken cancellation) {
+		var segment = new Segment() {
+			name = "seg",
+			rules = new List<Rule>() {
+				new Rule() {
+					_id = Guid.NewGuid().ToString(),
+					clauses = new List<Clause>() {
+						new Clause() {
+							attribute = "GroupID",
+							values = new List<string>() { "one", "two", "three", "four" },
+							op = "oneof",
+						},
+						new Clause() {
+							attribute = "MemberID",
+							values = new List<string>() { "a", "b", "c", "d" },
+							op = "oneof",
+						},
+					},
+				}
+			},
+			key = "seg",
+			version = 3,
+			
+		};
+		return JsonSerializer.Serialize(segment);
 		HttpRequestMessage message = new(HttpMethod.Get, $"{SegmentAddress}/{keys.Project}/{keys.Environment}/{keys.Key}");
 		AddHeaders(message, keys.ApiKey, false);
 		var response = await Http.SendAsync(message, cancellation);
