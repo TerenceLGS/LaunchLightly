@@ -18,12 +18,12 @@
         <Label Grid.Row="2" Grid.Column="0" Content="Project" Margin="2" />
         <Label Grid.Row="3" Grid.Column="0" Content="Environment" Margin="2" />
         <Label Grid.Row="4" Grid.Column="0" Content="Flag" Margin="2" />
-        <CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="Show Keys" IsChecked="{Binding RevealKeys}" Margin="2" IsThreeState="False" IsTabStop="True" />
-        <TextBox Grid.Row="0" Grid.Column="1" Watermark="sdk key" Text="{Binding SdkKey}" PasswordChar="~" RevealPassword="{Binding RevealKeys}" Margin="4" />
-        <TextBox Grid.Row="1" Grid.Column="1" Watermark="api key" Text="{Binding ApiKey}" PasswordChar="~" RevealPassword="{Binding RevealKeys}" Margin="4" />
-        <TextBox Grid.Row="2" Grid.Column="1" Watermark="project" Text="{Binding ProjectId}" Margin="4" />
-        <TextBox Grid.Row="3" Grid.Column="1" Watermark="environment" Text="{Binding EnvironmentKey}" Margin="4" />
-        <TextBox Grid.Row="4" Grid.Column="1" Watermark="flag" Text="{Binding FlagId}"  Margin="4" />
+        <CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="Show Keys" IsChecked="{Binding RevealKeys,Mode=OneWayToSource}" Margin="2" IsThreeState="False" IsTabStop="True" />
+        <TextBox Grid.Row="0" Grid.Column="1" Watermark="sdk key" Text="{Binding SdkKey, RelativeSource={RelativeSource TemplatedParent}}" PasswordChar="{Binding PasswordChar}" Margin="4" />
+        <TextBox Grid.Row="1" Grid.Column="1" Watermark="api key" Text="{Binding ApiKey, RelativeSource={RelativeSource TemplatedParent}}" PasswordChar="~" RevealPassword="{Binding RevealKeys,Mode=OneWay}" Margin="4" />
+        <TextBox Grid.Row="2" Grid.Column="1" Watermark="project" Text="{Binding ProjectId, RelativeSource={RelativeSource TemplatedParent}}" Margin="4" />
+        <TextBox Grid.Row="3" Grid.Column="1" Watermark="environment" Text="{Binding EnvironmentKey, RelativeSource={RelativeSource TemplatedParent}}" Margin="4" />
+        <TextBox Grid.Row="4" Grid.Column="1" Watermark="flag" Text="{Binding FlagId, RelativeSource={RelativeSource TemplatedParent}}"  Margin="4" />
         <Button Content="GET" Grid.Row="1" Grid.Column="2" />
     </Grid>
 </UserControl>

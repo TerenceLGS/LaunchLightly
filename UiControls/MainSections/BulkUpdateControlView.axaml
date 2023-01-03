@@ -12,18 +12,18 @@
         <mainSections:BulkUpdateControlViewModel/>
     </Design.DataContext>
     
-    <Grid ColumnDefinitions="100,10*,1*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"  Margin="4">
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+    <Grid ColumnDefinitions="8*,1*" RowDefinitions="Auto,Auto,40,40,40,*"  Margin="4">
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Label Content="Rule Index:" Margin="4" />
             <TextBox Watermark="Rule Index" Margin="4" />
             <Label Content="Clause Index:" Margin="4" />
             <TextBox Watermark="Clause Index" Margin="4" />    
         </StackPanel>
         
-        <Label Grid.Row="1" Grid.Column="1" Content="IDs to change" Margin="4" />
-        <TextBox Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Watermark="IDs" Margin="4" />
-        <Button Grid.Row="2" Grid.Column="2" Content="Add" Margin="1" />
-        <Button Grid.Row="3" Grid.Column="2" Content="Remove" Margin="1" />
-        <Button Grid.Row="4" Grid.Column="2" Content="Replace" Margin="1" />
+        <Label Grid.Row="1" Grid.Column="0" Content="IDs to change" Margin="4" />
+        <TextBox Grid.Row="2" Grid.RowSpan="4" Grid.Column="0" Watermark="IDs" Margin="4" />
+        <Button Grid.Row="2" Grid.Column="1" Content="Add" Margin="1" />
+        <Button Grid.Row="3" Grid.Column="1" Content="Remove" Margin="1" />
+        <Button Grid.Row="4" Grid.Column="1" Content="Replace" Margin="1" />
     </Grid>
 </UserControl>
