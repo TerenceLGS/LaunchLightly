@@ -25,19 +25,4 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="UiControls\MainSections\BulkUpdateControlView.axaml.cs">
-      <DependentUpon>BulkUpdateControl.axaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="UiControls\MainSections\KeysControlView.axaml.cs">
-      <DependentUpon>KeysControl.axaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="UiControls\MainSections\ResultsControlView.axaml.cs">
-      <DependentUpon>ResultsControl.axaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
 </Project>
