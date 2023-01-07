@@ -15,24 +15,26 @@
     </Design.DataContext>
 
     <Grid ColumnDefinitions="2*,4,2*" RowDefinitions="Auto, 4, Auto, Auto">
-        <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0"  ColumnDefinitions="100,10*,1*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"  Margin="4">
+        <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0"  ColumnDefinitions="100,10*,1*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"  Margin="4">
             <Label Grid.Row="0" Grid.Column="0" Content="SDK" Margin="2" />
             <Label Grid.Row="1" Grid.Column="0" Content="API" Margin="2" />
             <Label Grid.Row="2" Grid.Column="0" Content="Project" Margin="2" />
             <Label Grid.Row="3" Grid.Column="0" Content="Environment" Margin="2" />
             <Label Grid.Row="4" Grid.Column="0" Content="Flag" Margin="2" />
+            <Label Grid.Row="5" Grid.Column="0" Content="Comment" Margin="2" />
             <TextBox Grid.Row="0" Grid.Column="1" Watermark="sdk key" Text="{Binding SdkKey}" PasswordChar="~" RevealPassword="{Binding RevealKeys}" Margin="4" />
             <TextBox Grid.Row="1" Grid.Column="1" Watermark="api key" Text="{Binding ApiKey}" PasswordChar="~" RevealPassword="{Binding RevealKeys}" Margin="4" />
             <TextBox Grid.Row="2" Grid.Column="1" Watermark="project" Text="{Binding ProjectId}" Margin="4" />
             <TextBox Grid.Row="3" Grid.Column="1" Watermark="environment" Text="{Binding EnvironmentKey}" Margin="4" />
             <TextBox Grid.Row="4" Grid.Column="1" Watermark="flag" Text="{Binding FlagId}"  Margin="4" />
-            <CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="Show Keys" IsChecked="{Binding RevealKeys}" Margin="2" IsThreeState="False" IsTabStop="True" />
-            <Button Content="GET" Grid.Row="1" Grid.Column="2" />
+            <TextBox Grid.Row="5" Grid.Column="1" Watermark="comment" Text="{Binding ChangeComment}"  Margin="4" />
+            <CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Show Keys" IsChecked="{Binding RevealKeys}" Margin="2" IsThreeState="False" IsTabStop="True" />
+            <Button Content="GET" Grid.Row="1" Grid.Column="2" Command="{Binding GetCurrentFromLd}" HotKey="Alt+g" />
         </Grid>
         <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" ResizeDirection="Columns" />
         <Grid Grid.Row="2" Grid.Column="0" ColumnDefinitions="8*,1*" RowDefinitions="Auto,*"  Margin="4">
             <Label Grid.Row="0" Grid.Column="0" Content="Results from LD" Margin="4" />
-            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding ResultsJson}" AcceptsReturn="True" Margin="4" />
+            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding ResultsJson}" AcceptsReturn="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="400"  Margin="4" />
             <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Name="RuleClauseIndexShortcutButtons">
                 <!-- for each rule and clause we need to add buttons in this stack panel to update Rule and Clause Index on the second window -->
             </StackPanel>
@@ -41,15 +43,15 @@
         <Grid Grid.Row="2" Grid.Column="2" ColumnDefinitions="8*,1*" RowDefinitions="Auto,Auto,40,40,40,*"  Margin="4">
             <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Label Content="Rule Index:" Margin="4" />
-                <TextBox Watermark="Rule Index" Margin="4" />
+                <TextBox Watermark="Rule" Text="{Binding RuleIndex}" AcceptsReturn="False" AcceptsTab="False" MinWidth="30" Width="50" MaxWidth="100" Margin="4,1,4,1" />
                 <Label Content="Clause Index:" Margin="4" />
-                <TextBox Watermark="Clause Index" Margin="4" />    
+                <TextBox Watermark="Clause" Text="{Binding ClauseIndex}" AcceptsReturn="False" AcceptsTab="False" MinWidth="30" Width="50" MaxWidth="100" Margin="4,1,4,1" />
             </StackPanel>
             <Label Grid.Row="1" Grid.Column="0" Content="IDs to change" Margin="4" />
-            <TextBox Grid.Row="2" Grid.RowSpan="4" Grid.Column="0" Watermark="IDs" Margin="4" />
-            <Button Grid.Row="2" Grid.Column="1" Content="Add" Margin="1" />
-            <Button Grid.Row="3" Grid.Column="1" Content="Remove" Margin="1" />
-            <Button Grid.Row="4" Grid.Column="1" Content="Replace" Margin="1" />
+            <TextBox Grid.Row="2" Grid.RowSpan="4" Grid.Column="0" Watermark="IDs" Text="{Binding PayloadIds}" AcceptsReturn="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="400" Margin="4" />
+            <Button Grid.Row="2" Grid.Column="1" Content="Add" Command="{Binding AddValuesToClauseCommand}" HotKey="Alt+a" MinWidth="30" Width="100" MaxWidth="100" Margin="1" />
+            <Button Grid.Row="3" Grid.Column="1" Content="Delete" Command="{Binding RemoveValuesFromClauseCommand}" HotKey="Alt+d" MinWidth="30" Width="100" MaxWidth="100" Margin="1" />
+            <Button Grid.Row="4" Grid.Column="1" Content="Replace" Command="{Binding ReplaceValuesInClauseCommand}" HotKey="Alt+r" MinWidth="30" Width="100" MaxWidth="100" Margin="1" />
         </Grid>
         <TextBox Grid.Column="0" Grid.Row="3"  Text="{Binding SdkKey}" Margin="20" />
     </Grid>

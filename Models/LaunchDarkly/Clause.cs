@@ -9,7 +9,7 @@ public class Clause {
 
 	public string? op { get; set; }
 
-	public List<string> values { get; set; }
+	public List<string> values { get; set; } = new ();
 
 	public bool negate { get; set; }
 }

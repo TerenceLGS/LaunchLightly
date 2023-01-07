@@ -3,7 +3,7 @@
 namespace LaunchLightly.Models.LaunchDarkly;
 
 public class Rule {
-    public string _id { get; set; }
+    public string? _id { get; set; }
 
-    public List<Clause> clauses { get; set; }
+    public List<Clause> clauses { get; set; } = new ();
 }
