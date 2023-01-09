@@ -25,7 +25,7 @@ public class Segment {
 
     public bool deleted { get; set; }
 
-    public List<Flag> _flags { get; set; } = new ();
+    public List<FlagLink> _flags { get; set; } = new ();
 
     public int? generation { get; set; }
 }

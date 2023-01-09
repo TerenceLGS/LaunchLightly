@@ -1,6 +1,6 @@
 ﻿namespace LaunchLightly.Models.LaunchDarkly;
 
-public class Flag {
+public class FlagLink {
 	public string? name { get; set; }
 
 	public string? key { get; set; }

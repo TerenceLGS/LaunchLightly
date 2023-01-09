@@ -26,36 +26,59 @@ public class MainWindowViewModel : ViewModelBase {
 	public ReactiveCommand<Unit, Unit> GetCurrentFromLd { get; }
 
 	public async Task GetCurrentStateFromLd() {
-		var result = await _api.GetSegment(new LdApiKeys(ApiKey, SdkKey, ProjectId, EnvironmentKey, FlagId), CancellationToken.None);
+		string result;
+		if (GetFlag) {
+			result = await _api.GetFlag(GetKeys(), CancellationToken.None);
+		} else { result = await _api.GetSegment(GetKeys(), CancellationToken.None); }
+
 		ResultsJson = result;
 	}
 	
 	public ReactiveCommand<Unit, Unit> AddValuesToClauseCommand { get; }
-
+	
 	private LdApiKeys GetKeys() => new LdApiKeys(ApiKey, SdkKey, ProjectId, EnvironmentKey, FlagId);
 
 	
 	public async Task AddValuesToClause() {
-		var values = PayloadIdsPerLine.Select(v => new KeyValuePair<string, int>(v, 0));
+		string result = null;
+		if (GetSegment) {
+			var values = PayloadIdsPerLine.Select(v => new KeyValuePair<string, int>(v, 0));
 
-		var result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, "add", values, ChangeComment);
+			result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, "add", values, ChangeComment);
+		} else {
+			var values = PayloadIdsPerLine;
+			result = await _api.UpdateFlagClauseWithSemantic(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, add, values, ChangeComment);
+		}
+
+		
 		ResultsJson = result;
 	}
 	
 	public ReactiveCommand<Unit, Unit> RemoveValuesFromClauseCommand { get; }
 
 	public async Task RemoveValuesFromClause() {
-		var valuesWithIndexes = _api.FindIndexesOf(LastSegment, IntRuleIndex, IntClauseIndex, PayloadIdsPerLine);
-		var result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, "remove", valuesWithIndexes, ChangeComment);
+		string? result = null;
+		if (_getSegment) {
+			var valuesWithIndexes = _api.FindIndexesOf(LastSegment, IntRuleIndex, IntClauseIndex, PayloadIdsPerLine);
+			result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, "remove", valuesWithIndexes, ChangeComment);
+		} else {
+			result = await _api.UpdateFlagClauseWithSemantic(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, remove, PayloadIdsPerLine, ChangeComment);
+		}
 		ResultsJson = result;
 	}
 	
 	public ReactiveCommand<Unit, Unit> ReplaceValuesInClauseCommand { get; }
 
 	public async Task ReplaceValuesInClause() {
-		var values = PayloadIdsPerLine.Select(v => new KeyValuePair<string, int>(v, 0));
-		var clauseSize = LastSegment.rules[IntRuleIndex].clauses[IntClauseIndex].values.Count;
-		var result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, "replace", values, ChangeComment, clauseSize);
+		string? result = null;
+		if (GetSegment) {
+			var values = PayloadIdsPerLine.Select(v => new KeyValuePair<string, int>(v, 0));
+			var clauseSize = LastSegment.rules[IntRuleIndex].clauses[IntClauseIndex].values.Count;
+			result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, "replace", values, ChangeComment, clauseSize);
+		} else {
+			result = await _api.UpdateFlagClauseWithSemantic(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, replace, PayloadIdsPerLine, ChangeComment);
+		}
+
 		ResultsJson = result;
 	}
 
@@ -70,7 +93,11 @@ public class MainWindowViewModel : ViewModelBase {
 	private string _clauseIndex = string.Empty;
 	private string _payloadIds = string.Empty;
 	private string _changeComment = string.Empty;
+	private string _messages = string.Empty;
+	private bool _getFlag = true;
+	private bool _getSegment = false;
 	private Segment? _lastSegment;
+	private Flag? _lastFlag;
 	private JsonSerializerOptions JsonOptions { get; set; } = new JsonSerializerOptions(){DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault, WriteIndented = true};
 
 	private Segment? LastSegment {
@@ -81,6 +108,17 @@ public class MainWindowViewModel : ViewModelBase {
 
 		set {
 			_lastSegment = value;
+			this.RaisePropertyChanged();
+		}
+	}
+
+	private Flag? LastFlag {
+		get {
+			if (ResultsJson.Any()) { _lastFlag = JsonSerializer.Deserialize<Flag>(ResultsJson, JsonOptions); }
+			return _lastFlag;
+		}
+		set {
+			_lastFlag = value;
 			this.RaisePropertyChanged();
 		}
 	}
@@ -151,6 +189,14 @@ public class MainWindowViewModel : ViewModelBase {
 		}
 	}
 
+	public string Messages {
+		get => _messages;
+		set {
+			_messages = value;
+			this.RaisePropertyChanged();
+		}
+	}
+
 	private int IntClauseIndex => Convert.ToInt32(ClauseIndex);
 	public string ClauseIndex {
 		get => _clauseIndex;
@@ -172,6 +218,21 @@ public class MainWindowViewModel : ViewModelBase {
 		get => _resultsJson;
 		set {
 			_resultsJson = value;
+			this.RaisePropertyChanged();
+		}
+	}
+
+	public bool GetFlag {
+		get => _getFlag;
+		set {
+			_getFlag = value;
+			this.RaisePropertyChanged();
+		}
+	}
+	public bool GetSegment {
+		get => _getSegment;
+		set {
+			_getSegment = value;
 			this.RaisePropertyChanged();
 		}
 	}

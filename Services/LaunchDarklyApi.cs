@@ -22,7 +22,7 @@ public class ClauseOp {
 }
 
 public interface ILaunchDarklyApi {
-	Task<Rule> GetRule(LdApiKeys keys, CancellationToken cancellation);
+	Task<string> GetFlag(LdApiKeys keys, CancellationToken cancellation);
 	Task<string> GetSegment(LdApiKeys keys, CancellationToken cancellation);
 	Task<string> UpdateFlagClauseWithSemantic(LdApiKeys keys, CancellationToken cancellation, string ruleId, string clauseId, string kind, IEnumerable<string> values, string? comment);
 	IEnumerable<KeyValuePair<string, int>> FindIndexesOf(Segment segment, int ruleIndex, int clauseIndex, IEnumerable<string> values);
@@ -66,6 +66,15 @@ public class LaunchDarklyApi : ILaunchDarklyApi {
 		};
 		return JsonSerializer.Serialize(segment, new JsonSerializerOptions(){WriteIndented = true});
 		HttpRequestMessage message = new(HttpMethod.Get, $"{SegmentAddress}/{keys.Project}/{keys.Environment}/{keys.Key}");
+		AddHeaders(message, keys.ApiKey, false);
+		using var http = new HttpClient();
+		var response = await http.SendAsync(message, cancellation);
+		var result = await response.Content.ReadAsStringAsync(cancellation);
+		return result;
+	}
+	
+	public async Task<string> GetFlag(LdApiKeys keys, CancellationToken cancellation) {
+		HttpRequestMessage message = new(HttpMethod.Get, $"{FlagsAddress}/{keys.Project}/{keys.Key}");
 		AddHeaders(message, keys.ApiKey, false);
 		using var http = new HttpClient();
 		var response = await http.SendAsync(message, cancellation);
@@ -116,7 +125,7 @@ public class LaunchDarklyApi : ILaunchDarklyApi {
 			for (int i = clauseSize.Value; i >= 0; i--) {
 				body.patch.Add(new Operation() {
 					op = "remove", 
-					path = $"{ruleIndex}/{clauseIndex}/{i}"
+					path = $"/rules/{ruleIndex}/clauses/{clauseIndex}/values/{i}",
 				});
 			}
 		}
@@ -124,7 +133,7 @@ public class LaunchDarklyApi : ILaunchDarklyApi {
 			foreach (KeyValuePair<string,int> item in values) {
 				body.patch.Add(new Operation() {
 					op = "add",
-					path = $"{ruleIndex}/{clauseIndex}/-",
+					path = $"/rules/{ruleIndex}/clauses/{clauseIndex}/values/-",
 					value = item.Key
 				});
 			}
@@ -133,12 +142,15 @@ public class LaunchDarklyApi : ILaunchDarklyApi {
 			foreach (var item in values.OrderByDescending(i => i.Value)) {
 				body.patch.Add(new Operation() {
 					op = "remove",
-					path = $"{ruleIndex}/{clauseIndex}/{item.Value}",
+					path = $"/rules/{ruleIndex}/clauses/{clauseIndex}/values/{item.Value}",
 				});
 			}
 		}
 		
-		request.Content = new StringContent(JsonSerializer.Serialize(body, new JsonSerializerOptions() {DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull} ));
+		request.Content = new StringContent(
+			JsonSerializer.Serialize(
+				body, 
+				new JsonSerializerOptions() {DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull} ));
 		using var http = new HttpClient();
 		var response = await http.SendAsync(request, cancellation);
 		var result = await response.Content.ReadAsStringAsync(cancellation);

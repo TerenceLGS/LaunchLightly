@@ -15,7 +15,7 @@
     </Design.DataContext>
 
     <Grid ColumnDefinitions="2*,4,2*" RowDefinitions="Auto, 4, Auto, Auto">
-        <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0"  ColumnDefinitions="100,10*,1*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"  Margin="4">
+        <Grid Grid.Column="0" Grid.Row="0" ColumnDefinitions="100,10*,1*,10*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"  Margin="4">
             <Label Grid.Row="0" Grid.Column="0" Content="SDK" Margin="2" />
             <Label Grid.Row="1" Grid.Column="0" Content="API" Margin="2" />
             <Label Grid.Row="2" Grid.Column="0" Content="Project" Margin="2" />
@@ -29,9 +29,14 @@
             <TextBox Grid.Row="4" Grid.Column="1" Watermark="flag" Text="{Binding FlagId}"  Margin="4" />
             <TextBox Grid.Row="5" Grid.Column="1" Watermark="comment" Text="{Binding ChangeComment}"  Margin="4" />
             <CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Show Keys" IsChecked="{Binding RevealKeys}" Margin="2" IsThreeState="False" IsTabStop="True" />
+            <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
+                <RadioButton GroupName="FlagOrSegment" Content="Flag" IsChecked="{Binding GetFlag}" Margin="4" />
+                <RadioButton GroupName="FlagOrSegment" Content="Segment" IsChecked="{Binding GetSegment}" Margin="4" />
+            </StackPanel>
             <Button Content="GET" Grid.Row="1" Grid.Column="2" Command="{Binding GetCurrentFromLd}" HotKey="Alt+g" />
         </Grid>
         <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" ResizeDirection="Columns" />
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Messages}" Margin="4" />
         <Grid Grid.Row="2" Grid.Column="0" ColumnDefinitions="8*,1*" RowDefinitions="Auto,*"  Margin="4">
             <Label Grid.Row="0" Grid.Column="0" Content="Results from LD" Margin="4" />
             <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding ResultsJson}" AcceptsReturn="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="400"  Margin="4" />
