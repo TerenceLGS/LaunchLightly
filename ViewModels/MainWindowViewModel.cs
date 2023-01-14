@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using LaunchLightly.Models.LaunchDarkly;
+using LaunchLightly.Models.LaunchDarkly.Semantic;
 using LaunchLightly.Services;
 using ReactiveUI;
 
@@ -37,19 +38,17 @@ public class MainWindowViewModel : ViewModelBase {
 	public ReactiveCommand<Unit, Unit> AddValuesToClauseCommand { get; }
 	
 	private LdApiKeys GetKeys() => new LdApiKeys(ApiKey, SdkKey, ProjectId, EnvironmentKey, FlagId);
-
 	
 	public async Task AddValuesToClause() {
 		string result = null;
 		if (GetSegment) {
 			var values = PayloadIdsPerLine.Select(v => new KeyValuePair<string, int>(v, 0));
 
-			result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, "add", values, ChangeComment);
+			result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, OperationType.Add, values, ChangeComment);
 		} else {
 			var values = PayloadIdsPerLine;
-			result = await _api.UpdateFlagClauseWithSemantic(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, add, values, ChangeComment);
+			result = await _api.UpdateFlagClauseWithSemantic(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, InstructionKind.AddValuesToClause, values, ChangeComment);
 		}
-
 		
 		ResultsJson = result;
 	}
@@ -60,9 +59,9 @@ public class MainWindowViewModel : ViewModelBase {
 		string? result = null;
 		if (_getSegment) {
 			var valuesWithIndexes = _api.FindIndexesOf(LastSegment, IntRuleIndex, IntClauseIndex, PayloadIdsPerLine);
-			result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, "remove", valuesWithIndexes, ChangeComment);
+			result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, OperationType.Remove, valuesWithIndexes, ChangeComment);
 		} else {
-			result = await _api.UpdateFlagClauseWithSemantic(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, remove, PayloadIdsPerLine, ChangeComment);
+			result = await _api.UpdateFlagClauseWithSemantic(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, InstructionKind.RemoveValuesFromClause, PayloadIdsPerLine, ChangeComment);
 		}
 		ResultsJson = result;
 	}
@@ -74,9 +73,9 @@ public class MainWindowViewModel : ViewModelBase {
 		if (GetSegment) {
 			var values = PayloadIdsPerLine.Select(v => new KeyValuePair<string, int>(v, 0));
 			var clauseSize = LastSegment.rules[IntRuleIndex].clauses[IntClauseIndex].values.Count;
-			result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, "replace", values, ChangeComment, clauseSize);
+			result = await _api.UpdateSegmentClause(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, OperationType.Replace, values, ChangeComment, clauseSize);
 		} else {
-			result = await _api.UpdateFlagClauseWithSemantic(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, replace, PayloadIdsPerLine, ChangeComment);
+			result = await _api.UpdateFlagClauseWithSemantic(GetKeys(), CancellationToken.None, RuleIndex, ClauseIndex, OperationType.Replace, PayloadIdsPerLine, ChangeComment);
 		}
 
 		ResultsJson = result;

@@ -95,6 +95,8 @@ public class LaunchDarklyApi : ILaunchDarklyApi {
 		var _ = keys?.ApiKey ?? throw new ArgumentNullException(nameof(keys.ApiKey), "Need ApiKey for HTTP request");
 		AddHeaders(request, keys.ApiKey, true);
 
+		if (kind == "replace") { throw new NotImplementedException("Replace hasn't been implemented for Semantic yet"); }
+
 		var body = new SemanticPatch<string>() {
 			comment = comment,
 			instructions = new List<Instruction<string>> {
@@ -111,7 +113,6 @@ public class LaunchDarklyApi : ILaunchDarklyApi {
 		var response = await http.SendAsync(request, cancellation);
 		var result = await response.Content.ReadAsStringAsync(cancellation);
 		return result;
-		
 	}
 
 	public async Task<string> UpdateSegmentClause(LdApiKeys keys, CancellationToken cancellation, string ruleIndex, string clauseIndex, string kind, IEnumerable<KeyValuePair<string, int>> values, string? comment, int? clauseSize) {
